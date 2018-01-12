@@ -1,0 +1,30 @@
+import json
+import urllib.request
+import requests
+#import urllib2
+
+
+API = "https://api.vk.com/method/"
+default_id = "id335353199"
+
+def getUserId(uid=default_id):
+    raw_data = urllib.request.urlopen(API + 'users.get?user_ids=%s&v=5.26' % uid)
+    data = json.load(raw_data)
+    print(data['response'][0]['first_name'], data['response'][0]['last_name'])
+    return data['response'][0]['id']
+
+uid = getUserId()
+print(uid)
+
+def getUserFriends(uid):
+    raw_data = urllib.request.urlopen(API + 'friends.get?user_id=%s&v=5.26' % uid)
+    data = json.load(raw_data)
+    return data
+
+friends = getUserFriends(uid)
+
+print(friends)
+
+#with open('friends_of_%s.json' %uid, 'w+') as fp:
+#    json.dump(friends, fp)
+    
